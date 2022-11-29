@@ -50,4 +50,17 @@ describe Application do
       # expect(response.body).to eq(expected_response)
     end
   end
+
+  context "POST /albums" do
+    it 'returns 200 OK' do
+      post_response = post('/albums', title: "Voyage", release_year: "2022", artist_id: "2")
+
+      expect(post_response.status).to eq(200)
+      expect(post_response.body).to eq ""
+
+      get_response = get("/albums")
+      titles = get_response.body.split(', ')
+      expect(titles.last).to eq "Voyage"
+    end
+  end
 end

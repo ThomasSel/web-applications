@@ -28,4 +28,16 @@ class Application < Sinatra::Base
 
     return "id=#{album.id},title=#{album.title},release_year=#{album.release_year},artist_id=#{album.artist_id}"
   end
+
+  post "/albums" do
+    album = Album.new
+    album.title = params[:title]
+    album.release_year = params[:release_year]
+    album.artist_id = params[:artist_id]
+
+    album_repo = AlbumRepository.new
+    album = album_repo.create(album)
+
+    return nil
+  end
 end
