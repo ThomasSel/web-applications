@@ -1,4 +1,4 @@
-# {{ METHOD }} {{ PATH}} Route Design Recipe
+# {{ GET }} {{ /artists }} Route Design Recipe
 
 _Copy this design recipe template to test-drive a Sinatra route._
 
@@ -10,6 +10,15 @@ You'll need to include:
   * any query parameters (passed in the URL)
   * or body parameters (passed in the request body)
 
+Method: GET
+Path: /artists
+Query parameters: N/A
+
+Method: POST
+Path: /artists
+Query Parameters: N/A
+Body Parameters: name, title
+
 ## 2. Design the Response
 
 The route might return different responses, depending on the result.
@@ -20,30 +29,13 @@ Your response might return plain text, JSON, or HTML code.
 
 _Replace the below with your own design. Think of all the different possible responses your route will return._
 
-```html
-<!-- EXAMPLE -->
-<!-- Response when the post is found: 200 OK -->
-
-<html>
-  <head></head>
-  <body>
-    <h1>Post title</h1>
-    <div>Post content</div>
-  </body>
-</html>
 ```
+GET /artists
+Returns a list of artists names 
+=> Pixies, ABBA, Taylor Swift, Nina Simone
 
-```html
-<!-- EXAMPLE -->
-<!-- Response when the post is not found: 404 Not Found -->
-
-<html>
-  <head></head>
-  <body>
-    <h1>Sorry!</h1>
-    <div>We couldn't find this post. Have a look at the homepage?</div>
-  </body>
-</html>
+POST /artists
+Returns nothing
 ```
 
 ## 3. Write Examples
@@ -53,22 +45,20 @@ _Replace these with your own design._
 ```
 # Request:
 
-GET /posts?id=1
+GET /artists
 
-# Expected response:
+# Expected response (200 OK):
+Pixies, ABBA, Taylor Swift, Nina Simone
 
-Response for 200 OK
+POST /artists
+Body:
+name="Wild Nothing"
+genre="Indie"
+
+# Expected response (200 OK):
+returns nothing
 ```
 
-```
-# Request:
-
-GET /posts?id=276278
-
-# Expected response:
-
-Response for 404 Not Found
-```
 
 ## 4. Encode as Tests Examples
 
@@ -83,20 +73,24 @@ describe Application do
 
   let(:app) { Application.new }
 
-  context "GET /" do
-    it 'returns 200 OK' do
-      # Assuming the post with id 1 exists.
-      response = get('/posts?id=1')
+  context "GET /artists" do
+    it 'returns a list of all artists' do
+      response = get('/artists')
 
-      expect(response.status).to eq(200)
-      # expect(response.body).to eq(expected_response)
+      expect(response.status).to be(200)
+      expect(response.body).to eq ("Pixies, ABBA, Taylor Swift, Nina Simone")
     end
+  end
 
-    it 'returns 404 Not Found' do
-      response = get('/posts?id=276278')
+  context "POST /artists" do
+    it 'adds artists to the database' do
+      post_response = post('/artists', name: 'Wild Nothing', genre: 'Indie')
+      expect(post_response.status).to be (200)
 
-      expect(response.status).to eq(404)
-      # expect(response.body).to eq(expected_response)
+      get_response = get('/artists')
+
+      expect(get_response.status).to be(200)
+      expect(get_response.body).to eq ("Pixies, ABBA, Taylor Swift, Nina Simone, Wild Nothing")
     end
   end
 end

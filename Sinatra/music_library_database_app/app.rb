@@ -40,4 +40,22 @@ class Application < Sinatra::Base
 
     return nil
   end
+
+  get "/artists" do
+    artist_repository = ArtistRepository.new
+    artists = artist_repository.all
+    artist_list = []
+    artists.each do |artist|
+      artist_list << artist.name
+    end
+    artist_list.join(", ")
+  end
+
+  post "/artists" do
+    artist_repository = ArtistRepository.new
+    artist = Artist.new
+    artist.name = params[:name]
+    artist.genre = params[:genre]
+    artist_repository.create(artist)
+  end
 end
