@@ -19,4 +19,13 @@ class Application < Sinatra::Base
     albums = album_repo.all
     return albums.map(&:title).join(', ')
   end
+
+  get "/albums/:id" do
+    id = params[:id]
+
+    album_repo = AlbumRepository.new
+    album = album_repo.find(id)
+
+    return "id=#{album.id},title=#{album.title},release_year=#{album.release_year},artist_id=#{album.artist_id}"
+  end
 end
