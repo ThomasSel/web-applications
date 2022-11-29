@@ -48,4 +48,12 @@ describe Application do
       expect(response.body).to eq("Sorry! We couldn't find this post.")
     end
   end
+
+  context "GET /hello" do
+    it "returns an HTML page with hello header" do
+      response = get("/hello")
+      expect(response.status).to eq 200
+      expect(response.body).to include("<h1>Hello!</h1>")
+    end
+  end
 end

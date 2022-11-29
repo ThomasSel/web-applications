@@ -24,11 +24,6 @@ class Application < Sinatra::Base
     return "Posted '#{name}'"
   end
 
-  get '/hello' do
-    NAME = params[:name]
-    return "Hello #{NAME}"
-  end
-
   post "/submit" do
     name = params[:name]
     message = params[:message]
@@ -43,5 +38,9 @@ class Application < Sinatra::Base
   post '/sort-names' do
     names = params[:names].split(',')
     return names.sort.join(',')
+  end
+
+  get "/hello" do
+    return erb(:index)
   end
 end
