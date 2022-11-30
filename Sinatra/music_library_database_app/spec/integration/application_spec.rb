@@ -80,6 +80,18 @@ describe Application do
     end
   end
 
+  context "GET /artists/:id" do
+    it 'returns an HTML response with artist information' do
+      response = get('/artists/2')
+
+      expect(response.status).to be 200
+      expect(response.body).to include(
+        "<h1>ABBA</h1>",
+        "<p>Genre: Pop</p>"
+      )
+    end
+  end
+
   context "POST /artists" do
     it 'adds artists to the database' do
       post_response = post('/artists', name: 'Wild nothing', genre: 'Indie')

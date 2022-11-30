@@ -54,6 +54,14 @@ class Application < Sinatra::Base
     artist_list.join(", ")
   end
 
+  get "/artists/:id" do
+    id = params[:id]
+    artist_repo = ArtistRepository.new
+    @artist = artist_repo.find(id)
+
+    return erb(:artist)
+  end
+
   post "/artists" do
     artist_repository = ArtistRepository.new
     artist = Artist.new
