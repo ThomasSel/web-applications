@@ -84,6 +84,8 @@ class Application < Sinatra::Base
     artist.name = params[:name]
     artist.genre = params[:genre]
     artist_repository.create(artist)
+
+    return erb(:artist_created)
   end
 
   private

@@ -165,6 +165,10 @@ describe Application do
     it 'adds artists to the database' do
       post_response = post('/artists', name: 'Wild Nothing', genre: 'Indie')
       expect(post_response.status).to be (200)
+      expect(post_response.body).to include(
+        '<p>Your artist has been added</p>',
+        '<a href="/artists">Return to artists list</a>'
+      )
 
       get_response = get('/artists')
 
