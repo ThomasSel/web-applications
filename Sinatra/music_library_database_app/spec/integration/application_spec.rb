@@ -42,6 +42,21 @@ describe Application do
     end
   end
 
+  context "GET /albums/new" do
+    it 'returns the correct HTML form' do
+      response = get('/albums/new')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include(
+        '<h1>Add a new album</h1>',
+        '<form action="/albums" method="POST">',
+        '<input type="text" name="title">',
+        '<input type="text" name="release_year">',
+        '<input type="text" name="artist">'
+      )
+    end
+  end
+
   context "GET /albums/:id" do
     it 'with :id=1 returns 200 OK' do
       # Assuming the post with id 1 exists.
