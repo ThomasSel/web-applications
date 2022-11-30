@@ -27,14 +27,18 @@ describe Application do
   let(:app) { Application.new }
 
   context "GET /albums" do
-    it 'returns 200 OK' do
+    it 'returns an HTML list of all albums' do
       # Assuming the post with id 1 exists.
       response = get('/albums')
 
-      expected_response = "Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring"
-
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to include(
+        "<h1>Albums</h1>",
+        "Title: Doolittle",
+        "Released: 1989",
+        "Title: Super Trouper",
+        "Released: 1980"
+      )
     end
   end
 
@@ -60,8 +64,10 @@ describe Application do
       expect(post_response.body).to eq ""
 
       get_response = get("/albums")
-      titles = get_response.body.split(', ')
-      expect(titles.last).to eq "Voyage"
+      expect(get_response.body).to include(
+        "Title: Voyage",
+        "Released: 2022"
+      )
     end
   end
 
