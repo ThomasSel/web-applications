@@ -37,6 +37,11 @@ class Application < Sinatra::Base
   end
 
   post "/albums" do
+    if invalid_post_params?
+      status 400
+      return ''
+    end
+
     album = Album.new
     album.title = params[:title]
     album.release_year = params[:release_year]
@@ -69,5 +74,11 @@ class Application < Sinatra::Base
     artist.name = params[:name]
     artist.genre = params[:genre]
     artist_repository.create(artist)
+  end
+
+  private
+
+  def invalid_post_params?
+    return [params[:title], params[:release_year], params[:artist_id]].any?(&:nil?)
   end
 end

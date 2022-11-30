@@ -102,6 +102,20 @@ describe Application do
         "Released: 2022"
       )
     end
+
+    it 'fails if the wrong parameters are given' do
+      post_response = post('/albums',
+        fake_arg_1: "sldkjf",
+        fake_arg_2: "adslkf"
+      )
+
+      expect(post_response.status).to eq 400
+    end
+
+    it 'fails if no body parameters are passed' do
+      post_response = post('/albums')
+      expect(post_response.status).to eq 400
+    end
   end
 
   context "GET /artists" do
