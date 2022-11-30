@@ -36,8 +36,10 @@ describe Application do
         "<h1>Albums</h1>",
         "Title: Doolittle",
         "Released: 1989",
+        '<a href="/albums/1">Link to album page</a>',
         "Title: Super Trouper",
-        "Released: 1980"
+        "Released: 1980",
+        '<a href="/albums/2">Link to album page</a>'
       )
     end
   end
