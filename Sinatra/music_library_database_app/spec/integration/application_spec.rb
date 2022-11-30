@@ -50,9 +50,11 @@ describe Application do
       expect(response.body).to include(
         '<h1>Add a new album</h1>',
         '<form action="/albums" method="POST">',
-        '<input type="text" name="title">',
-        '<input type="text" name="release_year">',
-        '<input type="text" name="artist_id">',
+        '<input type="text" name="title" id="title" />',
+        '<input type="text" name="release_year" id="release_year" />',
+        '<select name="artist_id" id="artist_id">',
+        '<option value="1">Pixies</option>',
+        '<option value="2">ABBA</option>',
         '<input type="submit" name="Submit">'
       )
     end

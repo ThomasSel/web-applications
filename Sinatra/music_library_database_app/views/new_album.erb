@@ -3,10 +3,28 @@
   <body>
     <h1>Add a new album</h1>
     <form action="/albums" method="POST">
-      <input type="text" name="title">
-      <input type="text" name="release_year">
-      <input type="text" name="artist_id">
-      <input type="submit" name="Submit">
+      <div>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" />
+      </div>
+
+      <div>
+        <label for="release_year">Release year</label>
+        <input type="text" name="release_year" id="release_year" />
+      </div>
+
+      <div>
+        <label for="artist_id">Artist</label>
+        <select name="artist_id" id="artist_id">
+          <% @artists.each do |artist| %>
+            <option value="<%= artist.id %>"><%= artist.name %></option>
+          <% end %>
+        </select>
+      </div>
+
+      <div>
+        <input type="submit" name="Submit">
+      </div>
     </form>
   </body>
 </html>
