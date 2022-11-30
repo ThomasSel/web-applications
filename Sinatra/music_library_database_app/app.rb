@@ -38,7 +38,7 @@ class Application < Sinatra::Base
   end
 
   post "/albums" do
-    if invalid_post_params?
+    if invalid_post_album_params?
       status 400
       return ''
     end
@@ -61,6 +61,10 @@ class Application < Sinatra::Base
     return erb(:artists)
   end
 
+  get "/artists/new" do
+    return erb(:new_artist)
+  end
+
   get "/artists/:id" do
     id = params[:id]
     artist_repo = ArtistRepository.new
@@ -70,6 +74,11 @@ class Application < Sinatra::Base
   end
 
   post "/artists" do
+    if invalid_post_artist_params?
+      status 400
+      return ''
+    end
+
     artist_repository = ArtistRepository.new
     artist = Artist.new
     artist.name = params[:name]
@@ -79,7 +88,11 @@ class Application < Sinatra::Base
 
   private
 
-  def invalid_post_params?
+  def invalid_post_album_params?
     return [params[:title], params[:release_year], params[:artist_id]].any?(&:nil?)
+  end
+
+  def invalid_post_artist_params?
+    return [params[:name], params[:genre]].any?(&:nil?)
   end
 end

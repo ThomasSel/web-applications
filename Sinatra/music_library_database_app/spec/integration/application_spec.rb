@@ -134,6 +134,21 @@ describe Application do
     end
   end
 
+  context "GET /artists/new" do
+    it 'returns a new artist form' do
+      get_response = get("/artists/new")
+
+      expect(get_response.status).to eq 200
+      expect(get_response.body).to include(
+        '<h1>Add a new artist</h1>',
+        '<form action="/artists" method="POST">',
+        '<input type="text" name="name" id="name" />',
+        '<input type="text" name="genre" id="genre" />',
+        '<input type="submit" name="Submit" />'
+      )
+    end
+  end
+
   context "GET /artists/:id" do
     it 'returns an HTML response with artist information' do
       response = get('/artists/2')
@@ -157,6 +172,21 @@ describe Application do
       expect(get_response.body).to include(
         '<div><a href="/artists/5">Wild Nothing</a></div>'
       )
+    end
+
+    it 'fails if the wrong params are given' do
+      post_response = post('/artists',
+        fake_param_1: "akdsh",
+        fake_param_2: "aklsjdhfj"
+      )
+      
+      expect(post_response.status).to eq 400
+    end
+
+    it 'fails if no params are given' do
+      post_response = post('/artists')
+      
+      expect(post_response.status).to eq 400
     end
   end
 end
