@@ -76,7 +76,12 @@ describe Application do
       response = get('/artists')
 
       expect(response.status).to be(200)
-      expect(response.body).to eq ("Pixies, ABBA, Taylor Swift, Nina Simone")
+      expect(response.body).to include(
+        "<h1>Artists</h1>",
+        '<div><a href="/artists/1">Pixies</a></div>',
+        '<div><a href="/artists/2">ABBA</a></div>',
+        '<div><a href="/artists/3">Taylor Swift</a></div>'
+      )
     end
   end
 
@@ -94,13 +99,15 @@ describe Application do
 
   context "POST /artists" do
     it 'adds artists to the database' do
-      post_response = post('/artists', name: 'Wild nothing', genre: 'Indie')
+      post_response = post('/artists', name: 'Wild Nothing', genre: 'Indie')
       expect(post_response.status).to be (200)
 
       get_response = get('/artists')
 
       expect(get_response.status).to be(200)
-      expect(get_response.body).to eq ("Pixies, ABBA, Taylor Swift, Nina Simone, Wild nothing")
+      expect(get_response.body).to include(
+        '<div><a href="/artists/5">Wild Nothing</a></div>'
+      )
     end
   end
 end
