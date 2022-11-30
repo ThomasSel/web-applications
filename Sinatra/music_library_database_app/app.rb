@@ -45,7 +45,7 @@ class Application < Sinatra::Base
     album_repo = AlbumRepository.new
     album = album_repo.create(album)
 
-    return nil
+    return erb(:album_created)
   end
 
   get "/artists" do

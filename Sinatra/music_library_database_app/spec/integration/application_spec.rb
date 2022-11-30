@@ -52,7 +52,8 @@ describe Application do
         '<form action="/albums" method="POST">',
         '<input type="text" name="title">',
         '<input type="text" name="release_year">',
-        '<input type="text" name="artist">'
+        '<input type="text" name="artist_id">',
+        '<input type="submit" name="Submit">'
       )
     end
   end
@@ -72,11 +73,28 @@ describe Application do
   end
 
   context "POST /albums" do
-    it 'returns 200 OK' do
-      post_response = post('/albums', title: "Voyage", release_year: "2022", artist_id: "2")
+    it 'returns a success page with a link back to artists' do
+      post_response = post('/albums',
+        title: "Voyage",
+        release_year: "2022",
+        artist_id: "2"
+      )
+
+      expect(post_response.status).to eq 200
+      expect(post_response.body).to include(
+        '<p>Your album has been added</p>',
+        '<a href="/albums">Return to albums list</a>'
+      )
+    end
+    
+    it 'Adds the album to the database' do
+      post_response = post('/albums',
+        title: "Voyage",
+        release_year: "2022",
+        artist_id: "2"
+      )
 
       expect(post_response.status).to eq(200)
-      expect(post_response.body).to eq ""
 
       get_response = get("/albums")
       expect(get_response.body).to include(
