@@ -34,12 +34,10 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include(
         "<h1>Albums</h1>",
-        "Title: Doolittle",
+        'Title: <a href="/albums/1">Doolittle</a>',
         "Released: 1989",
-        '<a href="/albums/1">Link to album page</a>',
-        "Title: Super Trouper",
+        'Title: <a href="/albums/4">Super Trouper</a>',
         "Released: 1980",
-        '<a href="/albums/2">Link to album page</a>'
       )
     end
   end
@@ -67,7 +65,7 @@ describe Application do
 
       get_response = get("/albums")
       expect(get_response.body).to include(
-        "Title: Voyage",
+        'Title: <a href="/albums/13">Voyage</a>',
         "Released: 2022"
       )
     end
